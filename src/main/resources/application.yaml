@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: marathon
+
+  data:
+    mongodb:
+      uri: mongodb://root:password@localhost:27017/mongodb-container?authSource=admin
