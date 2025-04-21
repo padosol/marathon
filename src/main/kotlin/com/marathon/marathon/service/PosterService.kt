@@ -16,6 +16,18 @@ class PosterService(
     private val posterRepository: PosterRepository
 ) {
 
+    fun findPosterById(posterId: String):Poster {
+        return posterRepository.findById(posterId)
+            ?: throw CustomException(
+                statusCode = HttpStatus.NOT_FOUND.value(),
+                errorMessage = "존재하지 않는 포스터 아이디 입니다. $posterId"
+            )
+    }
+
+    fun findAllPoster():List<Poster> {
+        return posterRepository.findAll()
+    }
+
     fun createPoster(createPosterDTO: CreatePosterDTO): Poster {
         val poster = Poster(
             posterName = createPosterDTO.posterName,
