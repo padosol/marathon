@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import java.time.LocalDateTime
 
 
 @RestControllerAdvice
@@ -17,7 +18,8 @@ class CustomExceptionHandler {
         return ResponseEntity.status(customException.statusCode).body(
             ExceptionResponse(
                 statusCode = customException.statusCode,
-                message = customException.errorMessage
+                message = customException.errorMessage,
+                timestamp = LocalDateTime.now()
             )
         )
     }

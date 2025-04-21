@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -20,16 +21,13 @@ import org.springframework.web.bind.annotation.RestController
 
 @Tag(name = "Poster API")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/posters")
 class PosterController(
     private val posterService: PosterService,
 ) {
 
     @Operation(summary = "포스터 등록 API", description = "포스터를 등록합니다.")
-    @ApiResponses(value = [
-
-    ])
-    @PostMapping("/posters")
+    @PostMapping()
     fun createPoster(
         @RequestBody createPosterDTO: CreatePosterDTO
     ): ResponseEntity<PosterResponse> {
@@ -39,8 +37,9 @@ class PosterController(
     }
 
     @Operation(summary = "포스터 수정 API", description = "포스터를 수정합니다.")
-    @PutMapping("/posters")
+    @PutMapping("/{posterId}")
     fun modifyPoster(
+        @PathVariable("posterId") posterId: String,
         @RequestBody modifyPosterDTO: ModifyPosterDTO
     ): ResponseEntity<PosterResponse> {
         val modifyPoster = posterService.modifyPoster(modifyPosterDTO)
@@ -49,8 +48,9 @@ class PosterController(
     }
 
     @Operation(summary = "포스터 삭제 API", description = "포스터를 삭제합니다.")
-    @DeleteMapping("/posters")
+    @DeleteMapping("/{posterId}")
     fun deletePoster(
+        @PathVariable("posterId") posterId: String,
         @RequestBody deletePosterDTO: DeletePosterDTO
     ): ResponseEntity<Void> {
         posterService.deletePoster(deletePosterDTO)
