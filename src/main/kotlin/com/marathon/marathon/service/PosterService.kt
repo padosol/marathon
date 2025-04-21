@@ -31,8 +31,7 @@ class PosterService(
         return posterRepository.save(poster)
     }
 
-    fun modifyPoster(modifyPosterDTO: ModifyPosterDTO): Poster {
-        val posterId = modifyPosterDTO.id
+    fun modifyPoster(posterId: String, modifyPosterDTO: ModifyPosterDTO): Poster {
         val findPoster: Poster = posterRepository.findById(posterId)
             ?: throw CustomException(
                 statusCode = HttpStatus.NOT_FOUND.value(),
@@ -44,9 +43,7 @@ class PosterService(
         return posterRepository.save(findPoster)
     }
 
-    fun deletePoster(deletePosterDTO: DeletePosterDTO) {
-        val posterId = deletePosterDTO.posterId
-
+    fun deletePoster(posterId: String) {
         posterRepository.findById(posterId)
             ?: throw CustomException(
                 statusCode = HttpStatus.NOT_FOUND.value(),

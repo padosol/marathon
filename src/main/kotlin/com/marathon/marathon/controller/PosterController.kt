@@ -42,7 +42,7 @@ class PosterController(
         @PathVariable("posterId") posterId: String,
         @RequestBody modifyPosterDTO: ModifyPosterDTO
     ): ResponseEntity<PosterResponse> {
-        val modifyPoster = posterService.modifyPoster(modifyPosterDTO)
+        val modifyPoster = posterService.modifyPoster(posterId, modifyPosterDTO)
 
         return ResponseEntity.ok(PosterMapper.entityToDTO(modifyPoster))
     }
@@ -51,9 +51,8 @@ class PosterController(
     @DeleteMapping("/{posterId}")
     fun deletePoster(
         @PathVariable("posterId") posterId: String,
-        @RequestBody deletePosterDTO: DeletePosterDTO
     ): ResponseEntity<Void> {
-        posterService.deletePoster(deletePosterDTO)
+        posterService.deletePoster(posterId)
 
         return ResponseEntity.status(204).build()
     }
