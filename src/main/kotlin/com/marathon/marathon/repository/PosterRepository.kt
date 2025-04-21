@@ -23,5 +23,8 @@ class PosterRepository(
     fun findById(posterId: String): Poster? {
         return posterMongoRepository.findByIdOrNull(posterId)
     }
+    fun findAll(): List<Poster> {
+        return posterMongoRepository.findAll()
+    }
 
 }

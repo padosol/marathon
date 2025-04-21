@@ -7,10 +7,13 @@ import com.marathon.marathon.dto.response.PosterResponse
 import com.marathon.marathon.mapper.PosterMapper
 import com.marathon.marathon.service.PosterService
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.media.Content
+import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -25,6 +28,23 @@ import org.springframework.web.bind.annotation.RestController
 class PosterController(
     private val posterService: PosterService,
 ) {
+
+    @Operation(summary = "포스터 조회 API", description = "posterId 로 포스터를 조회한다.")
+    @GetMapping("/{posterId}")
+    fun findPoster(
+        @PathVariable("posterId") posterId: String
+    ): ResponseEntity<PosterResponse> {
+        val poster = posterService.findPosterById(posterId)
+        return ResponseEntity.ok(PosterMapper.entityToDTO(poster))
+    }
+
+    @Operation(summary = "포스터 전체 조회 API", description = "전체 포스터를 조회한다.")
+    @GetMapping()
+    fun findAllPoster(): ResponseEntity<List<PosterResponse>> {
+        return ResponseEntity.ok(
+            posterService.findAllPoster().map { PosterMapper.entityToDTO(it) }
+        )
+    }
 
     @Operation(summary = "포스터 등록 API", description = "포스터를 등록합니다.")
     @PostMapping()
@@ -42,19 +62,41 @@ class PosterController(
         @PathVariable("posterId") posterId: String,
         @RequestBody modifyPosterDTO: ModifyPosterDTO
     ): ResponseEntity<PosterResponse> {
-        val modifyPoster = posterService.modifyPoster(modifyPosterDTO)
+        val modifyPoster = posterService.modifyPoster(posterId, modifyPosterDTO)
 
         return ResponseEntity.ok(PosterMapper.entityToDTO(modifyPoster))
     }
 
     @Operation(summary = "포스터 삭제 API", description = "포스터를 삭제합니다.")
+    @ApiResponses(
+        value = [
+            ApiResponse(
+                responseCode = "204",
+                description = "포스터 삭제 성공",
+                content = [
+                    Content(
+                        mediaType = "application/json"
+                    )
+                ]
+            ),
+            ApiResponse(
+                responseCode = "404",
+                description = "존재하지 않는 포스터 입니다.",
+                content = [
+                    Content(
+                        mediaType = "application/json"
+                    )
+                ]
+            )
+        ]
+    )
     @DeleteMapping("/{posterId}")
     fun deletePoster(
         @PathVariable("posterId") posterId: String,
-        @RequestBody deletePosterDTO: DeletePosterDTO
     ): ResponseEntity<Void> {
-        posterService.deletePoster(deletePosterDTO)
+        posterService.deletePoster(posterId)
 
         return ResponseEntity.status(204).build()
     }
+
 }
