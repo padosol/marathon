@@ -1,5 +1,13 @@
 version: '3'
 services:
+  marathon:
+    image: marathon:latest
+    container_name: backend-server
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongodb
+
   mongodb:
     image: mongo
     container_name: mongodb
