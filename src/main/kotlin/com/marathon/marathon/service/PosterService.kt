@@ -1,14 +1,12 @@
 package com.marathon.marathon.service
 
 import com.marathon.marathon.dto.request.CreatePosterDTO
-import com.marathon.marathon.dto.request.DeletePosterDTO
 import com.marathon.marathon.dto.request.ModifyPosterDTO
 import com.marathon.marathon.entity.Course
 import com.marathon.marathon.entity.Poster
 import com.marathon.marathon.exception.CustomException
 import com.marathon.marathon.repository.PosterRepository
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.stereotype.Service
 
 @Service
@@ -37,7 +35,8 @@ class PosterService(
                     courseType = it.courseType,
                     prise = it.price
                 )
-            }.toMutableList()
+            }.toMutableList(),
+            posterId = posterId
         )
 
         return posterRepository.save(poster)

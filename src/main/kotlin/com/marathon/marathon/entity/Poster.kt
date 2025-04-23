@@ -13,7 +13,7 @@ data class Poster(
     var posterName: String,
 
     @Field("courses")
-    var courses: MutableList<Course> = mutableListOf()
+    var courses: MutableList<Course> = mutableListOf(),
 ) {
     fun modifyPoster(modifyPosterDTO: ModifyPosterDTO) {
         this.posterName = modifyPosterDTO.posterName
