@@ -6,6 +6,10 @@ import com.marathon.marathon.dto.request.ModifyPosterDTO
 import com.marathon.marathon.dto.response.PosterResponse
 import com.marathon.marathon.mapper.PosterMapper
 import com.marathon.marathon.service.PosterService
+import com.marathon.marathon.service.usecase.CreatePosterUseCase
+import com.marathon.marathon.service.usecase.GetPosterUseCase
+import com.marathon.marathon.service.usecase.ModifyPosterUseCase
+import com.marathon.marathon.service.usecase.RemovePosterUseCase
 import io.swagger.v3.oas.annotations.Operation
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.responses.ApiResponse
@@ -26,7 +30,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/api/posters")
 class PosterController(
-    private val posterService: PosterService,
+    private val getPosterUseCase: GetPosterUseCase,
+    private val createPosterUseCase: CreatePosterUseCase,
+    private val modifyPosterUseCase: ModifyPosterUseCase,
+    private val removePosterUseCase: RemovePosterUseCase
 ) {
 
     @Operation(summary = "포스터 조회 API", description = "posterId 로 포스터를 조회한다.")
@@ -34,7 +41,7 @@ class PosterController(
     fun findPoster(
         @PathVariable("posterId") posterId: String
     ): ResponseEntity<PosterResponse> {
-        val poster = posterService.findPosterById(posterId)
+        val poster = getPosterUseCase.findPosterById(posterId)
         return ResponseEntity.ok(PosterMapper.entityToDTO(poster))
     }
 
@@ -42,7 +49,7 @@ class PosterController(
     @GetMapping()
     fun findAllPoster(): ResponseEntity<List<PosterResponse>> {
         return ResponseEntity.ok(
-            posterService.findAllPoster().map { PosterMapper.entityToDTO(it) }
+            getPosterUseCase.findAllPoster().map { PosterMapper.entityToDTO(it) }
         )
     }
 
@@ -51,7 +58,7 @@ class PosterController(
     fun createPoster(
         @RequestBody createPosterDTO: CreatePosterDTO
     ): ResponseEntity<PosterResponse> {
-        val createPoster = posterService.createPoster(createPosterDTO)
+        val createPoster = createPosterUseCase.createPoster(createPosterDTO)
 
         return ResponseEntity.ok(PosterMapper.entityToDTO(createPoster))
     }
@@ -62,7 +69,7 @@ class PosterController(
         @PathVariable("posterId") posterId: String,
         @RequestBody modifyPosterDTO: ModifyPosterDTO
     ): ResponseEntity<PosterResponse> {
-        val modifyPoster = posterService.modifyPoster(posterId, modifyPosterDTO)
+        val modifyPoster = modifyPosterUseCase.modifyPoster(posterId, modifyPosterDTO)
 
         return ResponseEntity.ok(PosterMapper.entityToDTO(modifyPoster))
     }
@@ -94,7 +101,7 @@ class PosterController(
     fun deletePoster(
         @PathVariable("posterId") posterId: String,
     ): ResponseEntity<Void> {
-        posterService.deletePoster(posterId)
+        removePosterUseCase.removePoster(posterId)
 
         return ResponseEntity.status(204).build()
     }

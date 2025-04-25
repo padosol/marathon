@@ -6,15 +6,19 @@ import com.marathon.marathon.entity.Course
 import com.marathon.marathon.entity.Poster
 import com.marathon.marathon.exception.CustomException
 import com.marathon.marathon.repository.PosterRepository
+import com.marathon.marathon.service.usecase.CreatePosterUseCase
+import com.marathon.marathon.service.usecase.GetPosterUseCase
+import com.marathon.marathon.service.usecase.ModifyPosterUseCase
+import com.marathon.marathon.service.usecase.RemovePosterUseCase
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
 class PosterService(
     private val posterRepository: PosterRepository
-) {
+) : GetPosterUseCase, CreatePosterUseCase, ModifyPosterUseCase, RemovePosterUseCase{
 
-    fun findPosterById(posterId: String):Poster {
+    override fun findPosterById(posterId: String):Poster {
         return posterRepository.findById(posterId)
             ?: throw CustomException(
                 statusCode = HttpStatus.NOT_FOUND.value(),
@@ -22,11 +26,11 @@ class PosterService(
             )
     }
 
-    fun findAllPoster():List<Poster> {
+    override fun findAllPoster():List<Poster> {
         return posterRepository.findAll()
     }
 
-    fun createPoster(createPosterDTO: CreatePosterDTO): Poster {
+    override fun createPoster(createPosterDTO: CreatePosterDTO): Poster {
         val poster = Poster(
             posterName = createPosterDTO.posterName,
             courses = createPosterDTO.courses.map {
@@ -36,13 +40,12 @@ class PosterService(
                     prise = it.price
                 )
             }.toMutableList(),
-            posterId = posterId
         )
 
         return posterRepository.save(poster)
     }
 
-    fun modifyPoster(posterId: String, modifyPosterDTO: ModifyPosterDTO): Poster {
+    override fun modifyPoster(posterId: String, modifyPosterDTO: ModifyPosterDTO): Poster {
         val findPoster: Poster = posterRepository.findById(posterId)
             ?: throw CustomException(
                 statusCode = HttpStatus.NOT_FOUND.value(),
@@ -54,7 +57,7 @@ class PosterService(
         return posterRepository.save(findPoster)
     }
 
-    fun deletePoster(posterId: String) {
+    override fun removePoster(posterId: String) {
         posterRepository.findById(posterId)
             ?: throw CustomException(
                 statusCode = HttpStatus.NOT_FOUND.value(),
