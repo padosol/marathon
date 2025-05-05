@@ -20,7 +20,7 @@ class PosterServiceTest : BehaviorSpec({
         courses = mutableListOf()
     )
 
-    given("posterId 가 주어졌을 때") {
+    Given("posterId 가 주어졌을 때") {
         val posterId = "poster1234"
 
         every { posterRepository.findById(posterId) } returns poster
@@ -32,7 +32,6 @@ class PosterServiceTest : BehaviorSpec({
             }
         }
     }
-
 
     Given("존재하지 않는 posterId 로 요청을 하면") {
         val posterId = "poster11111"
