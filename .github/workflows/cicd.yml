@@ -48,8 +48,8 @@ jobs:
 
       - name: Build and push Docker image
         run: |
-          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/marathon .
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/marathon
+          docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVICE_NAME }} .
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVICE_NAME }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -66,9 +66,9 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            cd Desktop/marathon
-            docker-compose stop marathon
-            docker-compose pull ${{ secrets.DOCKERHUB_USERNAME }}/marathon
-            docker-compose up marathon
+            cd Desktop/${{ secrets.DOCKERHUB_SERVICE_NAME }}
+            docker-compose stop ${{ secrets.DOCKERHUB_SERVICE_NAME }}
+            docker-compose pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_SERVICE_NAME }}
+            docker-compose up ${{ secrets.DOCKERHUB_SERVICE_NAME }}
             echo "deploy end"
           
