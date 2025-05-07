@@ -66,5 +66,8 @@ jobs:
           key: ${{ secrets.REMOTE_SSH_KEY }}
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
-            echo $(pwd)
+            cd Desktop/marathon
+            docker-compose down --rmi all
+            docker-compose up --build
+            echo "deploy end"
           
