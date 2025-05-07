@@ -67,6 +67,7 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
             cd Desktop/marathon
+            docker-compose stop marathon
             docker-compose pull ${{ secrets.DOCKERHUB_USERNAME }}/marathon
             docker-compose up marathon
             echo "deploy end"
