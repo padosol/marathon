@@ -1,6 +1,8 @@
 package com.marathon.marathon.service
 
 import com.marathon.marathon.entity.Poster
+import com.marathon.marathon.entity.vo.Course
+import com.marathon.marathon.entity.vo.PosterStatus
 import com.marathon.marathon.exception.CustomException
 import com.marathon.marathon.repository.PosterRepository
 import io.kotest.core.spec.style.BehaviorSpec
@@ -8,6 +10,8 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.assertThrows
+import org.springframework.data.mongodb.core.mapping.Field
+import java.time.LocalDateTime
 
 class PosterServiceTest : BehaviorSpec({
 
@@ -16,8 +20,13 @@ class PosterServiceTest : BehaviorSpec({
 
     val poster = Poster(
         id = "poster1234",
-        posterName = "포스터1",
-        courses = mutableListOf()
+        title = "2025 JTBC 마라톤 대회",
+        location = "서울 올림픽 공원",
+        startDate = LocalDateTime.of(2025, 7, 17, 12, 0),
+        registrationStartDate = LocalDateTime.of(2025, 5, 17, 12, 0),
+        registrationEndDate = LocalDateTime.of(2025, 5, 25, 12, 0),
+        status = PosterStatus.UPCOMING,
+        courses = mutableListOf(),
     )
 
     Given("posterId 가 주어졌을 때") {
