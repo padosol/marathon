@@ -3,7 +3,7 @@ package com.marathon.marathon.service
 import com.marathon.marathon.entity.Poster
 import com.marathon.marathon.entity.vo.Course
 import com.marathon.marathon.entity.vo.PosterStatus
-import com.marathon.marathon.exception.CustomException
+import com.marathon.marathon.global.exception.CustomException
 import com.marathon.marathon.repository.PosterRepository
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
