@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Marathon Project
 
 A Spring Boot application built with Kotlin for managing posters and courses.
@@ -104,11 +103,3 @@ The project uses:
 - `POST /api/posters` - Create a new poster
 - `PUT /api/posters/{posterId}` - Update a poster
 - `DELETE /api/posters/{posterId}` - Delete a poster
-=======
-# marathon
-마라톤 정보 공유 서비스
-
-
-# CI / CD
-- develop branch push or PR => dev server 배포 진행
->>>>>>> 7abee8886c5c43381b892b94b247c98c2472d40e

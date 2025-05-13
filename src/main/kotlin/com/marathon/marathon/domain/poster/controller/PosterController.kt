@@ -3,6 +3,7 @@ package com.marathon.marathon.domain.poster.controller
 import com.marathon.marathon.domain.poster.dto.request.CreatePosterDTO
 import com.marathon.marathon.domain.poster.dto.request.ModifyPosterDTO
 import com.marathon.marathon.domain.poster.dto.response.PosterResponse
+import com.marathon.marathon.domain.poster.entity.Poster
 import com.marathon.marathon.domain.poster.mapper.PosterMapper
 import com.marathon.marathon.domain.poster.service.usecase.CreatePosterUseCase
 import com.marathon.marathon.domain.poster.service.usecase.GetPosterUseCase
