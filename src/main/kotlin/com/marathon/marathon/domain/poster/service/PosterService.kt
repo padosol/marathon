@@ -5,6 +5,7 @@ import com.marathon.marathon.domain.poster.dto.request.ModifyPosterDTO
 import com.marathon.marathon.domain.poster.entity.Poster
 import com.marathon.marathon.domain.poster.entity.vo.PosterStatus
 import com.marathon.marathon.domain.poster.mapper.CourseMapper
+import com.marathon.marathon.domain.poster.mapper.PosterMapper
 import com.marathon.marathon.domain.poster.repository.PosterRepository
 import com.marathon.marathon.domain.poster.service.usecase.CreatePosterUseCase
 import com.marathon.marathon.domain.poster.service.usecase.GetPosterUseCase
@@ -31,15 +32,7 @@ class PosterService(
     }
 
     override fun createPoster(createPosterDTO: CreatePosterDTO): Poster {
-        val poster = Poster(
-            title =  createPosterDTO.title,
-            location =  createPosterDTO.location,
-            startDate =  createPosterDTO.startDate,
-            registrationStartDate =  createPosterDTO.registrationStartDate,
-            registrationEndDate =  createPosterDTO.registrationEndDate,
-            status = PosterStatus.valueOf(createPosterDTO.status),
-            courses = createPosterDTO.courses.map { CourseMapper.dtoToDomain(it) }.toMutableList(),
-        )
+        val poster = PosterMapper.createDtoToEntity(createPosterDTO)
 
         return posterRepository.save(poster)
     }
