@@ -1,7 +1,9 @@
 package com.marathon.marathon.domain.poster.mapper
 
+import com.marathon.marathon.domain.poster.dto.request.CreatePosterDTO
 import com.marathon.marathon.domain.poster.dto.response.PosterResponse
 import com.marathon.marathon.domain.poster.entity.Poster
+import com.marathon.marathon.domain.poster.entity.vo.PosterStatus
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
@@ -27,6 +29,18 @@ class PosterMapper {
                 registrationEndDDay = ChronoUnit.DAYS.between(now, poster.registrationEndDate),
                 status = poster.status.name,
                 courses = poster.courses.map { CourseMapper.domainToResponse(it) }
+            )
+        }
+
+        fun createDtoToEntity(createPosterDTO: CreatePosterDTO): Poster {
+            return  Poster(
+                title =  createPosterDTO.title,
+                location =  createPosterDTO.location,
+                startDate =  createPosterDTO.startDate,
+                registrationStartDate =  createPosterDTO.registrationStartDate,
+                registrationEndDate =  createPosterDTO.registrationEndDate,
+                status = PosterStatus.valueOf(createPosterDTO.status),
+                courses = createPosterDTO.courses.map { CourseMapper.dtoToDomain(it) }.toMutableList(),
             )
         }
     }

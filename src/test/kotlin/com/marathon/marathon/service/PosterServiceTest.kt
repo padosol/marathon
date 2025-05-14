@@ -4,12 +4,15 @@ import com.marathon.marathon.domain.poster.dto.request.CourseDTO
 import com.marathon.marathon.domain.poster.dto.request.CreatePosterDTO
 import com.marathon.marathon.domain.poster.entity.Poster
 import com.marathon.marathon.domain.poster.entity.vo.PosterStatus
+import com.marathon.marathon.domain.poster.mapper.PosterMapper
 import com.marathon.marathon.domain.poster.repository.PosterRepository
 import com.marathon.marathon.domain.poster.service.PosterService
 import com.marathon.marathon.global.exception.CustomException
 import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.collections.shouldContainExactlyInAnyOrder
+import io.kotest.matchers.nulls.shouldNotBeNull
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -97,23 +100,30 @@ class PosterServiceTest : BehaviorSpec({
 
 
     Given("CreatePosterDTO 가 주어졌을 때 ") {
-        val createPosterDTo = CreatePosterDTO(
+        val createPosterDto = CreatePosterDTO(
             title = "새로운 마라톤 포스터",
             location = "대전광역시",
             startDate = LocalDateTime.now(),
             registrationStartDate = LocalDateTime.now(),
             registrationEndDate = LocalDateTime.now(),
-            status = "UPCOMMING",
+            status = "UPCOMING",
             courses =  mutableListOf()
         )
 
+        val tmpPoster: Poster = PosterMapper.createDtoToEntity(createPosterDto)
+        every { posterRepository.save(tmpPoster) } returns tmpPoster
 
+        When("포스터 등록을 하면") {
+            val createPoster = posterService.createPoster(createPosterDto)
 
-
-
-        When("포스터 등록 요청을 하면") {
-
-            Then("포스터가 등록된다.")
+            Then("포스터가 등록된다.") {
+                createPoster.title shouldBe createPosterDto.title
+                createPoster.location shouldBe createPosterDto.location
+                createPoster.startDate shouldBe createPosterDto.startDate
+                createPoster.registrationStartDate shouldBe createPosterDto.registrationStartDate
+                createPoster.registrationEndDate shouldBe createPosterDto.registrationEndDate
+                createPoster.status shouldBe PosterStatus.UPCOMING
+            }
         }
     }
 })
