@@ -2,7 +2,9 @@ package com.marathon.marathon.service
 
 import com.marathon.marathon.domain.poster.dto.request.CourseDTO
 import com.marathon.marathon.domain.poster.dto.request.CreatePosterDTO
+import com.marathon.marathon.domain.poster.dto.request.ModifyPosterDTO
 import com.marathon.marathon.domain.poster.entity.Poster
+import com.marathon.marathon.domain.poster.entity.vo.Course
 import com.marathon.marathon.domain.poster.entity.vo.PosterStatus
 import com.marathon.marathon.domain.poster.mapper.PosterMapper
 import com.marathon.marathon.domain.poster.repository.PosterRepository
@@ -19,6 +21,8 @@ import io.mockk.verify
 import io.swagger.v3.oas.annotations.media.Schema
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.extension.ExtendWith
+import org.springframework.data.annotation.Id
+import org.springframework.data.mongodb.core.mapping.Field
 import java.time.LocalDateTime
 
 class PosterServiceTest : BehaviorSpec({
@@ -126,4 +130,53 @@ class PosterServiceTest : BehaviorSpec({
             }
         }
     }
+
+    Given("ModifyPosterDTO 가 주어졌을 때") {
+        val modifyPosterDTO = ModifyPosterDTO(
+            id = "posterId",
+            posterName = "변경된 포스터명",
+            courses = mutableListOf()
+        )
+
+        val modifyPoster = Poster(
+            id = "posterId",
+            title =  "기존 포스터명",
+            location =  "서울 특별시",
+            startDate =  LocalDateTime.now(),
+            registrationStartDate =  LocalDateTime.now(),
+            registrationEndDate =  LocalDateTime.now(),
+            status =  PosterStatus.UPCOMING,
+            courses = mutableListOf()
+        )
+
+        When("포스터 수정 요청을 하면") {
+            every { posterRepository.findById(modifyPosterDTO.id) } returns modifyPoster
+
+            modifyPoster.modifyPoster(modifyPosterDTO)
+
+            every { posterRepository.save(modifyPoster) } returns modifyPoster
+
+            val modifiedPoster = posterService.modifyPoster(modifyPosterDTO.id, modifyPosterDTO)
+
+            Then("포스터가 수정 된다.") {
+                modifiedPoster.title shouldBe modifyPosterDTO.posterName
+            }
+        }
+
+        When("존재하지 않는 posterId 로 요청을 하면") {
+            val notExistId = "notExistId"
+
+            every { posterRepository.findById(notExistId) } returns null
+
+            val exception = assertThrows<CustomException> {
+                posterService.modifyPoster(notExistId, modifyPosterDTO)
+            }
+
+            Then("404 상태코드와 CustomException 을 반환한다.") {
+                exception.statusCode shouldBe 404
+                exception.errorMessage shouldBe "존재하지 않는 포스터 아이디 입니다. $notExistId"
+            }
+        }
+    }
+
 })
