@@ -179,4 +179,42 @@ class PosterServiceTest : BehaviorSpec({
         }
     }
 
+    Given("posterId 가 주어졌을때") {
+        val posterId = "posterId"
+
+        val removePoster = Poster(
+            id = "posterId",
+            title =  "기존 포스터명",
+            location =  "서울 특별시",
+            startDate =  LocalDateTime.now(),
+            registrationStartDate =  LocalDateTime.now(),
+            registrationEndDate =  LocalDateTime.now(),
+            status =  PosterStatus.UPCOMING,
+            courses = mutableListOf()
+        )
+        When("posterId 가 존재하고, 삭제 요청을 하면") {
+            every { posterRepository.findById(posterId) } returns removePoster
+            every { posterRepository.deletePoster(posterId) } returns Unit
+
+            posterService.removePoster(posterId)
+
+            Then("포스터가 삭제된다.") {
+
+            }
+        }
+
+        When("존재하지 않는 posterId 로 삭제요청을 하면") {
+            every { posterRepository.findById(posterId) } returns null
+
+            val exception = assertThrows<CustomException> {
+                posterService.removePoster(posterId)
+            }
+
+            Then("404 상태코드와 CustomException 을 반환한다.") {
+                exception.statusCode shouldBe 404
+                exception.errorMessage shouldBe "존재하지 않는 포스터 아이디 입니다. $posterId"
+            }
+        }
+    }
+
 })
