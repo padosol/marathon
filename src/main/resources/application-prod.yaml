@@ -4,4 +4,13 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://root:password@mongodb:27017/mongodb-container?authSource=admin
+      uri: mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@marathon-cluster.ie4xvvl.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority&appName=marathon-cluster
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus"
+
+server:
+  port: 8080

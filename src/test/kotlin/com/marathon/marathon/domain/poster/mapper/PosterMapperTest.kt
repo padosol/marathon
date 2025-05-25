@@ -19,7 +19,7 @@ class PosterMapperTest : BehaviorSpec({
             startDate = LocalDateTime.of(2025, 7, 17, 12, 0, 0),
             registrationStartDate = LocalDateTime.of(2025, 5, 17, 12, 0, 0),
             registrationEndDate = LocalDateTime.of(2025, 5, 25, 12, 0, 0),
-            status = PosterStatus.UPCOMING,
+            status = PosterStatus.NO_STATUS,
             courses = mutableListOf(),
         )
 
@@ -37,7 +37,7 @@ class PosterMapperTest : BehaviorSpec({
                 dto.registrationStartDDay shouldBe -3
                 dto.registrationEndDate shouldBe "2025-05-25"
                 dto.registrationEndDDay shouldBe 4
-                dto.status shouldBe "UPCOMING"
+                dto.status shouldBe "NO_STATUS"
                 dto.courses.size shouldBe 0
             }
         }
