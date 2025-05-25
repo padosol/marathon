@@ -4,7 +4,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://root:password@localhost:27017/mongodb-container?authSource=admin
+      uri: mongodb://root:password@localhost:27017/marathon?authSource=admin
 
 management:
   endpoints:

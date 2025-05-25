@@ -37,7 +37,7 @@ class PosterServiceTest : BehaviorSpec({
         startDate = LocalDateTime.of(2025, 7, 17, 12, 0),
         registrationStartDate = LocalDateTime.of(2025, 5, 17, 12, 0),
         registrationEndDate = LocalDateTime.of(2025, 5, 25, 12, 0),
-        status = PosterStatus.UPCOMING,
+        status = PosterStatus.NO_STATUS,
         courses = mutableListOf(),
     )
 
@@ -48,7 +48,7 @@ class PosterServiceTest : BehaviorSpec({
         startDate = LocalDateTime.of(2025, 3, 17, 12, 0),
         registrationStartDate = LocalDateTime.of(2025, 1, 17, 12, 0),
         registrationEndDate = LocalDateTime.of(2025, 1, 25, 12, 0),
-        status = PosterStatus.CLOSED,
+        status = PosterStatus.NO_STATUS,
         courses = mutableListOf(),
     )
 
@@ -107,10 +107,9 @@ class PosterServiceTest : BehaviorSpec({
         val createPosterDto = CreatePosterDTO(
             title = "새로운 마라톤 포스터",
             location = "대전광역시",
-            startDate = LocalDateTime.now(),
-            registrationStartDate = LocalDateTime.now(),
-            registrationEndDate = LocalDateTime.now(),
-            status = "UPCOMING",
+            startDate = "2025-05-17T12:00:00",
+            registrationStartDate = "2025-04-17T00:00:00",
+            registrationEndDate = "2025-04-20T00:00:00",
             courses =  mutableListOf()
         )
 
@@ -123,10 +122,10 @@ class PosterServiceTest : BehaviorSpec({
             Then("포스터가 등록된다.") {
                 createPoster.title shouldBe createPosterDto.title
                 createPoster.location shouldBe createPosterDto.location
-                createPoster.startDate shouldBe createPosterDto.startDate
-                createPoster.registrationStartDate shouldBe createPosterDto.registrationStartDate
-                createPoster.registrationEndDate shouldBe createPosterDto.registrationEndDate
-                createPoster.status shouldBe PosterStatus.UPCOMING
+                createPoster.startDate shouldBe LocalDateTime.parse("2025-05-17T12:00")
+                createPoster.registrationStartDate shouldBe LocalDateTime.parse("2025-04-17T00:00")
+                createPoster.registrationEndDate shouldBe LocalDateTime.parse("2025-04-20T00:00")
+                createPoster.status shouldBe PosterStatus.NO_STATUS
             }
         }
     }
@@ -145,7 +144,7 @@ class PosterServiceTest : BehaviorSpec({
             startDate =  LocalDateTime.now(),
             registrationStartDate =  LocalDateTime.now(),
             registrationEndDate =  LocalDateTime.now(),
-            status =  PosterStatus.UPCOMING,
+            status =  PosterStatus.NO_STATUS,
             courses = mutableListOf()
         )
 
@@ -189,7 +188,7 @@ class PosterServiceTest : BehaviorSpec({
             startDate =  LocalDateTime.now(),
             registrationStartDate =  LocalDateTime.now(),
             registrationEndDate =  LocalDateTime.now(),
-            status =  PosterStatus.UPCOMING,
+            status =  PosterStatus.NO_STATUS,
             courses = mutableListOf()
         )
         When("posterId 가 존재하고, 삭제 요청을 하면") {

@@ -27,19 +27,18 @@ class PosterMapper {
                 registrationStartDDay = ChronoUnit.DAYS.between(now, poster.registrationStartDate),
                 registrationEndDate = dateFormatter.format(poster.registrationEndDate),
                 registrationEndDDay = ChronoUnit.DAYS.between(now, poster.registrationEndDate),
-                status = poster.status.name,
+                status = poster.calculateStatus().name,
                 courses = poster.courses.map { CourseMapper.domainToResponse(it) }
             )
         }
 
         fun createDtoToEntity(createPosterDTO: CreatePosterDTO): Poster {
             return  Poster(
-                title =  createPosterDTO.title,
-                location =  createPosterDTO.location,
-                startDate =  createPosterDTO.startDate,
-                registrationStartDate =  createPosterDTO.registrationStartDate,
-                registrationEndDate =  createPosterDTO.registrationEndDate,
-                status = PosterStatus.valueOf(createPosterDTO.status),
+                title = createPosterDTO.title,
+                location = createPosterDTO.location,
+                startDate = LocalDateTime.parse(createPosterDTO.startDate),
+                registrationStartDate = LocalDateTime.parse(createPosterDTO.registrationStartDate),
+                registrationEndDate = LocalDateTime.parse(createPosterDTO.registrationEndDate),
                 courses = createPosterDTO.courses.map { CourseMapper.dtoToDomain(it) }.toMutableList(),
             )
         }

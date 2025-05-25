@@ -3,13 +3,14 @@ package com.marathon.marathon.domain.poster.entity
 import com.marathon.marathon.domain.poster.dto.request.ModifyPosterDTO
 import com.marathon.marathon.domain.poster.entity.vo.Course
 import com.marathon.marathon.domain.poster.entity.vo.PosterStatus
+import com.marathon.marathon.domain.poster.mapper.CourseMapper
 import com.marathon.marathon.global.exception.CustomException
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.core.mapping.Field
 import java.time.LocalDateTime
 
-@Document
+@Document(collection = "posters")
 data class Poster(
     @Id
     var id: String? = null,
@@ -20,8 +21,6 @@ data class Poster(
     val startDate: LocalDateTime,
     val registrationStartDate: LocalDateTime,
     val registrationEndDate: LocalDateTime,
-
-    var status: PosterStatus,
 
     @Field("courses")
     var courses: MutableList<Course> = mutableListOf(),
@@ -38,8 +37,29 @@ data class Poster(
         }
 
         this.title = modifyPosterDTO.posterName
-        this.courses = mutableListOf()
+        this.courses = modifyPosterDTO.courses.map { CourseMapper.dtoToDomain(it) }.toMutableList()
     }
+
+    fun calculateStatus(): PosterStatus {
+        // 접수예정, 접수중, 접수마감, 완료
+        val now = LocalDateTime.now()
+
+        return if (now.isBefore(registrationStartDate)) {
+            // 접수 예정
+            PosterStatus.AFTER_REGISTER
+        } else if (now.isBefore(registrationEndDate)) {
+            // 접수 중
+            PosterStatus.REGISTERING
+        } else if (now.isBefore(startDate)) {
+            // 접수 마감
+            PosterStatus.BEFORE_REGISTER
+        } else {
+            // 완료
+            PosterStatus.COMPLETED
+        }
+
+    }
+
 }
 
 

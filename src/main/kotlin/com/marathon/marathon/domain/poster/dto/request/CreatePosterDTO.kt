@@ -10,17 +10,14 @@ data class CreatePosterDTO(
     @field:Schema(description = "대회장소", defaultValue = "서울")
     val location: String,
 
-    @field:Schema(description = "대회 시작일", defaultValue = "20250715")
-    val startDate: LocalDateTime,
+    @field:Schema(description = "대회 시작일", defaultValue = "2025-07-15T12:00:00")
+    val startDate: String,
 
-    @field:Schema(description = "대회 접수일", defaultValue = "20250301")
-    val registrationStartDate: LocalDateTime,
+    @field:Schema(description = "대회 접수일", defaultValue = "2025-03-01T00:00:00")
+    val registrationStartDate: String,
 
-    @field:Schema(description = "대회 접수마감일", defaultValue = "20250315")
-    val registrationEndDate: LocalDateTime,
-
-    @field:Schema(description = "대회 상태", defaultValue = "UPCOMING")
-    val status: String,
+    @field:Schema(description = "대회 접수마감일", defaultValue = "2025-03-15T00:00:00")
+    val registrationEndDate: String,
 
     @field:Schema(
         description = "마라톤 코스 정보",
