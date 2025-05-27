@@ -4,7 +4,7 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@marathon-cluster.ie4xvvl.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority&appName=marathon-cluster
+      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@marathon-documnetdb.cvicueceetyt.ap-northeast-2.docdb.amazonaws.com:27017/${MONGODB_DATABASE}?tls=true&tlsCAFile=global-bundle.pem&retryWrites=false
 
 management:
   endpoints:
