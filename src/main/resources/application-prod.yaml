@@ -3,8 +3,16 @@ spring:
     name: marathon
 
   data:
-    mongodb:
-      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@marathon-documnetdb.cvicueceetyt.ap-northeast-2.docdb.amazonaws.com:27017/${MONGODB_DATABASE}?tls=true&tlsCAFile=global-bundle.pem&retryWrites=false
+    document-db:
+      user: marathon
+      password: guitar95sang
+      connection-string-template: mongodb://%s:%s@%s:%s/%s?retryWrites=false&directConnection=true&serverSelectionTimeoutMS=2000&tlsAllowInvalidHostnames=true&tls=true
+      host: marathon-documnetdb.cvicueceetyt.ap-northeast-2.docdb.amazonaws.com
+      port: 27017
+      db-name: marathonDB
+
+#    mongodb:
+#      uri: mongodb://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@marathon-documnetdb.cvicueceetyt.ap-northeast-2.docdb.amazonaws.com:27017/${MONGODB_DATABASE}?tls=true&tlsCAFile=global-bundle.pem&retryWrites=false
 
 management:
   endpoints:
