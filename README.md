@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Marathon Project
 
 A Spring Boot application built with Kotlin for managing posters and courses.
@@ -111,4 +110,3 @@ The project uses:
 
 # CI / CD
 - develop branch push or PR => dev server 배포 진행
->>>>>>> 7abee8886c5c43381b892b94b247c98c2472d40e
