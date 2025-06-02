@@ -25,6 +25,8 @@ bin/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+*.log
+*.log.gz
 
 ### NetBeans ###
 /nbproject/private/

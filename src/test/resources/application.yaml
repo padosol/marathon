@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: marathon
+
+  data:
+    mongodb:
+      host: localhost
+      port: 0
+      database: local
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 5.0.22

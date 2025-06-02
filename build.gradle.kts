@@ -34,6 +34,17 @@ dependencies {
     // swagger
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
 
+    // logstash
+    implementation("net.logstash.logback:logstash-logback-encoder:6.6")
+
+    // actuator
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    // prometheus
+    implementation("io.micrometer:micrometer-registry-prometheus")
+
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.20.0")
+
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

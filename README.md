@@ -102,11 +102,4 @@ The project uses:
 - `GET /api/posters/{posterId}` - Get a specific poster
 - `POST /api/posters` - Create a new poster
 - `PUT /api/posters/{posterId}` - Update a poster
-- `DELETE /api/posters/{posterId}` - Delete a poster
-=======
-# marathon
-마라톤 정보 공유 서비스
 
-
-# CI / CD
-- develop branch push or PR => dev server 배포 진행

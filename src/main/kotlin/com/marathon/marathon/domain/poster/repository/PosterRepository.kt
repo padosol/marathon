@@ -8,4 +8,6 @@ interface PosterRepository {
     fun deletePoster(posterId: String)
     fun findById(posterId: String): Poster?
     fun findAll(): List<Poster>
+
+    fun deleteAll()
 }
