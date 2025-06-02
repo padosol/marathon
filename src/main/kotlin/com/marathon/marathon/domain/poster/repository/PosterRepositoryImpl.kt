@@ -22,4 +22,8 @@ class PosterRepositoryImpl(
     override fun findAll(): List<Poster> {
         return posterMongoRepository.findAll()
     }
+
+    override fun deleteAll() {
+        posterMongoRepository.deleteAll()
+    }
 }

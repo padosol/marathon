@@ -6,6 +6,4 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class MongodbProperties{
 
-    @Value("\${}")
-    lateinit var database: String
 }

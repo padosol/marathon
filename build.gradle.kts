@@ -43,6 +43,8 @@ dependencies {
     // prometheus
     implementation("io.micrometer:micrometer-registry-prometheus")
 
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo.spring3x:4.20.0")
+
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
