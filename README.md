@@ -102,4 +102,4 @@ The project uses:
 - `GET /api/posters/{posterId}` - Get a specific poster
 - `POST /api/posters` - Create a new poster
 - `PUT /api/posters/{posterId}` - Update a poster
-- `DELETE /api/posters/{posterId}` - Delete a poster
+
